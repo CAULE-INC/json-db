@@ -1,11 +1,30 @@
 {
-  "name": "banco-de-dados",
+  "name": "my-database-package",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "A simple TypeScript-based database package",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build",
+    "dev": "tsc -w"
   },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CAULE-INC/json-db.git"
+  },
+  "keywords": [
+    "database",
+    "typescript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^4.0.0"
+  }
 }

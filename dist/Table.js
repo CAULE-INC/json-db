@@ -22,60 +22,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
 var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
     if (kind === "m") throw new TypeError("Private method is not writable");
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _Database_instances, _Database_initializeDatabase, _Database_setModel, _Table_name, _Table_filePath, _Table_model;
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs = __importStar(require("fs"));
-const basePath = "./database/";
-class Database {
-    constructor() {
-        _Database_instances.add(this);
-        this.tables = {};
-        __classPrivateFieldGet(this, _Database_instances, "m", _Database_initializeDatabase).call(this);
-    }
-    createTable(tableName, model) {
-        const tablePath = `${basePath}${String(tableName)}.json`;
-        if (!fs.existsSync(tablePath)) {
-            fs.writeFileSync(tablePath, JSON.stringify({ records: [], model: null }));
-            console.log(`Table '${String(tableName)}' created.`);
-        }
-        this.tables[tableName] = new Table(String(tableName), tablePath);
-        __classPrivateFieldGet(this, _Database_instances, "m", _Database_setModel).call(this, tableName, model);
-    }
-}
-_Database_instances = new WeakSet(), _Database_initializeDatabase = function _Database_initializeDatabase() {
-    if (!fs.existsSync(basePath)) {
-        fs.mkdirSync(basePath);
-    }
-    const files = fs
-        .readdirSync(basePath)
-        .filter((file) => file.endsWith(".json"));
-    files.forEach((file) => {
-        const tableName = file.replace(".json", "");
-        if (tableName in this.tables) {
-            this.tables[tableName] = new Table(tableName, `${basePath}${file}`);
-            console.log(`Table '${tableName}' loaded.`);
-        }
-    });
-}, _Database_setModel = function _Database_setModel(tableName, model) {
-    if (this.tables[tableName]) {
-        this.tables[tableName].setModel(model);
-        console.log(`Model set for table '${String(tableName)}'.`);
-    }
-    else {
-        console.log(`Table '${String(tableName)}' does not exist.`);
-    }
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
+var _Table_name, _Table_filePath, _Table_model;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Table = void 0;
+const fs = __importStar(require("fs"));
 class Table {
     constructor(name, filePath) {
         _Table_name.set(this, void 0);
@@ -158,15 +119,5 @@ class Table {
         console.log(`${deletedCount} record(s) deleted from table '${__classPrivateFieldGet(this, _Table_name, "f")}'.`);
     }
 }
+exports.Table = Table;
 _Table_name = new WeakMap(), _Table_filePath = new WeakMap(), _Table_model = new WeakMap();
-const db = new Database();
-db.createTable("users", { id: "number", name: "string", age: "number" });
-db.createTable("matheus", { id: "number", name: "string", age: "number" });
-db.tables.matheus.setModel({
-    id: "number",
-    name: "string",
-    age: "number",
-    email: "string",
-});
-const t = db.tables.matheus.readData();
-console.log(t);
