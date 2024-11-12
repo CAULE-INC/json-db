@@ -1,0 +1,16 @@
+{
+  "registros": [
+    {
+      "nome": "João",
+      "idade": 25
+    },
+    {
+      "nome": "Maria",
+      "idade": 30
+    }
+  ],
+  "modelo": {
+    "nome": "string",
+    "idade": "number"
+  }
+}
